@@ -16,9 +16,10 @@ package com.liferay.mobile.screens.testapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.liferay.mobile.screens.base.BaseScreenlet;
 import com.liferay.mobile.screens.viewsets.defaultviews.DefaultTheme;
 import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
 
@@ -27,20 +28,27 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 /**
  * @author Javier Gamarra
  */
-public abstract class ThemeActivity extends ActionBarActivity {
+public abstract class ThemeActivity<E extends BaseScreenlet> extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
 		currentTheme = getIntent().getIntExtra("theme", DefaultTheme.getDefaultTheme());
 
-		int color = isDefaultTheme() ? R.color.default_primary_blue : R.color.material_primary;
-
-		new LiferayCrouton.Builder().withInfoColor(color).build();
-
 		setTheme(currentTheme);
 
 		_content = findViewById(android.R.id.content);
+	}
+
+	protected Integer nextTheme(Integer currentTheme) {
+		for (int i = 0; i < themes.length; i++) {
+			if (currentTheme == themes[i]) {
+				int nextElement = (i + 1) % themes.length;
+				new LiferayCrouton.Builder().withInfoColor(colors[nextElement]).build();
+				return themes[nextElement];
+			}
+		}
+		return themes[0];
 	}
 
 	protected void error(String message, Exception e) {
@@ -57,19 +65,6 @@ public abstract class ThemeActivity extends ActionBarActivity {
 		return intent;
 	}
 
-	protected View getActiveScreenlet(int defaultId, int materialId) {
-		return isDefaultTheme() ? findViewById(defaultId) : findViewById(materialId);
-	}
-
-	protected void hideInactiveScreenlet(int defaultId, int materialId) {
-		View view = isDefaultTheme() ? findViewById(materialId) : findViewById(defaultId);
-		view.setVisibility(View.GONE);
-	}
-
-	protected boolean isDefaultTheme() {
-		return currentTheme == R.style.default_theme;
-	}
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -78,4 +73,7 @@ public abstract class ThemeActivity extends ActionBarActivity {
 
 	protected Integer currentTheme;
 	protected View _content;
+
+	int[] themes = {R.style.default_theme, R.style.material_theme, R.style.westeros_theme};
+	int[] colors = {R.color.default_primary_blue, R.color.material_primary, R.color.westeros_red};
 }
