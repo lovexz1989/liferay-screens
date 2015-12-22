@@ -62,8 +62,8 @@ public class MainActivity extends CardActivity implements View.OnClickListener, 
 		signUpScreenlet.setListener(this);
 
 		new LiferayCrouton.Builder()
-			.withInfoColor(R.color.westeros_green)
-			.withAlertColor(R.color.westeros_yellow)
+			.withInfoColor(R.color.green_westeros)
+			.withAlertColor(R.color.colorAccent_westeros)
 			.locatedIn(R.id.crouton_view_anchor)
 			.withHeight(250)
 			.withConfiguration(new Configuration.Builder().setInAnimation(R.anim.slide_up).setOutAnimation(R.anim.slide_down).build())

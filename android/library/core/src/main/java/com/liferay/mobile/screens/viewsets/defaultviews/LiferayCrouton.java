@@ -31,7 +31,7 @@ public class LiferayCrouton {
 
 	public static void error(Context context, String message, Exception e) {
 		if (_alert == null) {
-			new Builder().withAlertColor(R.color.default_red).build();
+			new Builder().withAlertColor(R.color.red_default).build();
 		}
 		String error = message;
 		if (e instanceof IllegalArgumentException) {
@@ -45,7 +45,7 @@ public class LiferayCrouton {
 
 	public static void info(Context context, String message) {
 		if (_info == null) {
-			new Builder().withInfoColor(R.color.default_primary_blue).build();
+			new Builder().withInfoColor(R.color.colorPrimary_default).build();
 		}
 		Activity activity = LiferayScreensContext.getActivityFromContext(context);
 		Crouton.showText(activity, message, _info, _position);

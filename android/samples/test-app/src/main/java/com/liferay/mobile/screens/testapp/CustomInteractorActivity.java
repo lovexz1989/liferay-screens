@@ -1,7 +1,6 @@
 package com.liferay.mobile.screens.testapp;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.liferay.mobile.android.exception.AuthenticationException;
 import com.liferay.mobile.screens.auth.login.LoginListener;
@@ -15,7 +14,7 @@ import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
 
 import org.json.JSONObject;
 
-public class CustomInteractorActivity extends AppCompatActivity
+public class CustomInteractorActivity extends ThemeActivity
 	implements LoginListener, CustomInteractorListener<LoginInteractor> {
 
 	@Override
