@@ -19,8 +19,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.liferay.mobile.screens.base.BaseScreenlet;
-import com.liferay.mobile.screens.viewsets.defaultviews.DefaultTheme;
 import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -28,12 +26,12 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 /**
  * @author Javier Gamarra
  */
-public abstract class ThemeActivity<E extends BaseScreenlet> extends AppCompatActivity {
+public abstract class ThemeActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle state) {
 		super.onCreate(state);
-		currentTheme = getIntent().getIntExtra("theme", DefaultTheme.getDefaultTheme());
+		currentTheme = getIntent().getIntExtra("theme", R.style.default_theme);
 
 		setTheme(currentTheme);
 
@@ -76,4 +74,5 @@ public abstract class ThemeActivity<E extends BaseScreenlet> extends AppCompatAc
 
 	int[] themes = {R.style.default_theme, R.style.material_theme, R.style.westeros_theme};
 	int[] colors = {R.color.default_primary_blue, R.color.material_primary, R.color.westeros_red};
+
 }
