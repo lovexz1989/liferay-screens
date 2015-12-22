@@ -30,7 +30,6 @@ import com.liferay.mobile.screens.base.ModalProgressBar;
 import com.liferay.mobile.screens.context.AuthenticationType;
 import com.liferay.mobile.screens.context.User;
 import com.liferay.mobile.screens.util.LiferayLogger;
-import com.liferay.mobile.screens.viewsets.defaultviews.DefaultTheme;
 import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
 
 /**
@@ -41,20 +40,14 @@ public class LoginView extends LinearLayout
 
 	public LoginView(Context context) {
 		super(context);
-
-		DefaultTheme.initIfThemeNotPresent(context);
 	}
 
 	public LoginView(Context context, AttributeSet attributes) {
 		super(context, attributes);
-
-		DefaultTheme.initIfThemeNotPresent(context);
 	}
 
 	public LoginView(Context context, AttributeSet attributes, int defaultStyle) {
 		super(context, attributes, defaultStyle);
-
-		DefaultTheme.initIfThemeNotPresent(context);
 	}
 
 	@Override

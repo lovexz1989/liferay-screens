@@ -28,7 +28,6 @@ import com.liferay.mobile.screens.R;
 import com.liferay.mobile.screens.base.BaseScreenlet;
 import com.liferay.mobile.screens.base.list.view.BaseListViewModel;
 import com.liferay.mobile.screens.util.LiferayLogger;
-import com.liferay.mobile.screens.viewsets.defaultviews.DefaultTheme;
 import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
 import com.liferay.mobile.screens.viewsets.defaultviews.ddl.list.DividerItemDecoration;
 
@@ -163,8 +162,6 @@ public abstract class BaseListScreenletView<
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 
-		DefaultTheme.initIfThemeNotPresent(getContext());
-
 		int itemLayoutId = getItemLayoutId();
 		int itemProgressLayoutId = getItemProgressLayoutId();
 
@@ -246,14 +243,11 @@ public abstract class BaseListScreenletView<
 			entries.set(i + firstRowForPage, serverEntries.get(i));
 		}
 	}
-
+	protected ProgressBar _progressBar;
+	protected RecyclerView _recyclerView;
 	private static final String _STATE_ENTRIES = "entries";
 	private static final String _STATE_ROW_COUNT = "rowCount";
 	private static final String _STATE_SUPER = "super";
-
-	protected ProgressBar _progressBar;
-	protected RecyclerView _recyclerView;
-
 	private BaseScreenlet _screenlet;
 
 }
