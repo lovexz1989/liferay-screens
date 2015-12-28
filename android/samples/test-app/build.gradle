@@ -41,14 +41,13 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.android.tools.build:gradle:2.0.0-alpha2'
+		classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
 	}
 }
 
 repositories {
-	maven {
-		url 'https://repository.liferay.com/nexus/content/groups/liferay-ce'
-	}
+	maven { url 'https://repository.liferay.com/nexus/content/groups/liferay-ce' }
+	maven { url "http://dl.bintray.com/tbruyelle/tbruyelle" }
 
 	jcenter()
 }
@@ -59,13 +58,22 @@ dependencies {
 	compile project(':liferay-material-viewset')
 	compile project(':addbookmarkscreenlet')
 
-	compile 'com.android.support:design:23.0.1'
+	compile 'com.android.support:design:23.1.1'
 
+	androidTestCompile('com.android.support.test:runner:0.4.1') {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
+	androidTestCompile('com.android.support.test:rules:0.4.1') {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
 
-	androidTestCompile 'com.android.support.test:runner:0.4.1'
-	androidTestCompile 'com.android.support.test:rules:0.4.1'
-
-	androidTestCompile 'com.android.support.test.espresso:espresso-core:+'
-	androidTestCompile 'com.android.support.test.espresso:espresso-contrib:+'
-	androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:+'
+	androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
+		exclude group: 'com.android.support', module: 'support-annotations'
+	}
+	androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+		exclude group: 'com.android.support', module: 'support-annotations'
+		exclude group: 'com.android.support', module: 'support-v4'
+		exclude group: 'com.android.support', module: 'recyclerview-v7'
+	}
+	androidTestCompile('com.android.support.test.espresso:espresso-idling-resource:2.2.1')
 }
