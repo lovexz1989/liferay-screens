@@ -14,6 +14,7 @@
 
 package com.liferay.mobile.screens.viewsets.defaultviews.userportrait;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.liferay.mobile.screens.R;
 import com.liferay.mobile.screens.base.BaseScreenlet;
 import com.liferay.mobile.screens.userportrait.UserPortraitScreenlet;
@@ -38,6 +40,9 @@ import com.liferay.mobile.screens.userportrait.view.UserPortraitViewModel;
 import com.liferay.mobile.screens.util.LiferayLogger;
 import com.liferay.mobile.screens.viewsets.defaultviews.DefaultTheme;
 import com.liferay.mobile.screens.viewsets.defaultviews.LiferayCrouton;
+import com.tbruyelle.rxpermissions.RxPermissions;
+
+import rx.functions.Action1;
 
 /**
  * @author Javier Gamarra
@@ -110,14 +115,47 @@ public class UserPortraitView extends FrameLayout implements UserPortraitViewMod
 			_choseOriginDialog = createOriginDialog();
 			_choseOriginDialog.show();
 		}
-		else if (v.getId() == R.id.liferay_dialog_select_file) {
-			((UserPortraitScreenlet) getParent()).openGallery();
-			_choseOriginDialog.dismiss();
-		}
-		else {
-			((UserPortraitScreenlet) getParent()).openCamera();
-			_choseOriginDialog.dismiss();
-		}
+
+		View takePhotoButton = _choseOriginDialog.findViewById(R.id.liferay_dialog_take_photo);
+		RxPermissions.getInstance(getContext())
+			.request(RxView.clicks(takePhotoButton),
+				Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+			.subscribe(openCamera());
+
+		View selectFileButton = _choseOriginDialog.findViewById(R.id.liferay_dialog_select_file);
+		RxPermissions.getInstance(getContext())
+			.request(RxView.clicks(selectFileButton), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+			.subscribe(openGallery());
+	}
+
+	public Action1 openCamera() {
+		return new Action1<Boolean>() {
+			@Override
+			public void call(Boolean result) {
+				if (result) {
+					((UserPortraitScreenlet) getScreenlet()).openCamera();
+				}
+				else {
+					LiferayCrouton.error(getContext(), getContext().getString(R.string.camera_permissions), null);
+				}
+				_choseOriginDialog.dismiss();
+			}
+		};
+	}
+
+	public Action1 openGallery() {
+		return new Action1<Boolean>() {
+			@Override
+			public void call(Boolean result) {
+				if (result) {
+					((UserPortraitScreenlet) getScreenlet()).openGallery();
+				}
+				else {
+					LiferayCrouton.error(getContext(), getContext().getString(R.string.sd_permissions), null);
+				}
+				_choseOriginDialog.dismiss();
+			}
+		};
 	}
 
 	protected AlertDialog createOriginDialog() {
